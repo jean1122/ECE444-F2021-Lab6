@@ -1,6 +1,6 @@
 import sqlite3
+import os
 from pathlib import Path
-
 from flask import Flask, g, render_template, request, session, flash, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
@@ -23,6 +23,12 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 # init sqlalchemy
 db = SQLAlchemy(app)
+
+SQLALCHEMY_DATABASE_URI = os.getenv(
+    'DATABASE_URL',
+    f'sqlite:///{Path(basedir).joinpath(DATABASE)}'
+)
+
 
 from project import models
 
